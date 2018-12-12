@@ -39,6 +39,7 @@ class TestsCompiletimeError(override val original: Throwable) : TestsError() {
 class TestsRuntimeError(override val original: Throwable) : TestsError() {
     override val postfix = TestsCompilerExceptionFilePostfix.RUNTIME_ERROR
     override fun toString() = original.toString()
+    override val cause = original.cause
 }
 
 private enum class ExceptionType {

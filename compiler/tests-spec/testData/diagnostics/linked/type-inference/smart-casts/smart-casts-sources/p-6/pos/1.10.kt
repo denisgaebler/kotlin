@@ -13,7 +13,7 @@
  */
 
 // TESTCASE NUMBER: 1
-fun <T>case_1_1(x: List<T>): T? = x[0]
+fun <T> case_1_1(x: List<T>): T? = x[0]
 
 fun case_1() {
     val x = case_1_1(listOf(10))
