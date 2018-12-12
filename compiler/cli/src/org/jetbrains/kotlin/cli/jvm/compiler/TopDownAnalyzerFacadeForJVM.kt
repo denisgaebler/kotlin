@@ -99,20 +99,21 @@ object TopDownAnalyzerFacadeForJVM {
             return null
         }
 
+        fun getExtensionsResult(): AnalysisResult? {
+            container.get<JavaClassesTracker>().onCompletedAnalysis(module)
+            return invokeExtensionsOnAnalysisComplete()?.let { return it }
+        }
+
         for (extension in analysisHandlerExtensions) {
             val result = extension.doAnalysis(project, module, moduleContext, files, trace, container)
             if (result != null) {
-                invokeExtensionsOnAnalysisComplete()?.let { return it }
-                return result
+                return getExtensionsResult() ?: result
             }
         }
 
         container.get<LazyTopDownAnalyzer>().analyzeDeclarations(TopDownAnalysisMode.TopLevelDeclarations, files)
-        container.get<JavaClassesTracker>().onCompletedAnalysis(module)
 
-        invokeExtensionsOnAnalysisComplete()?.let { return it }
-
-        return AnalysisResult.success(trace.bindingContext, module)
+        return getExtensionsResult() ?: AnalysisResult.success(trace.bindingContext, module)
     }
 
     fun createContainer(
