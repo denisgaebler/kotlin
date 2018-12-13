@@ -57,8 +57,17 @@ fun <T> T?.case_5() {
             <!DEBUG_INFO_EXPRESSION_TYPE("A5"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test()
 
             <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
-            apply { equals(this); <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this) }
-            also { <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test() }
+            <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+            apply {
+                equals(this)
+                test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A5 & T?!!}")!>this<!>.equals(this)
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A5 & T?!!}")!>this<!>.test()
+            }
+            also {
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A5 & T?!!}")!>it<!>.test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A5 & T?!!}")!>it<!>.equals(it)
+            }
         }
     }
 }
@@ -74,8 +83,17 @@ fun <T> T?.case_6() {
             <!DEBUG_INFO_EXPRESSION_TYPE("A6"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test()
 
             <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
-            apply { equals(this); <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A6}")!>this<!>.equals(this) }
-            also { <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A6}")!>it<!>.test() }
+            <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+            apply {
+                equals(this)
+                test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A6}")!>this<!>.equals(this)
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A6}")!>this<!>.test(<!TOO_MANY_ARGUMENTS!>this<!>)
+            }
+            also {
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A6}")!>it<!>.test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A6}")!>it<!>.equals(it)
+            }
         }
     }
 }
@@ -91,8 +109,16 @@ fun <T> T.case_7() {
             <!DEBUG_INFO_EXPRESSION_TYPE("T & A7"), DEBUG_INFO_SMARTCAST!>x<!>.equals(this)
             <!DEBUG_INFO_EXPRESSION_TYPE("T & A7"), DEBUG_INFO_SMARTCAST!>x<!>.test()
 
-            x.apply { equals(this); <!DEBUG_INFO_EXPRESSION_TYPE("{A7 & T!!}")!>this<!>.equals(this) }
-            x.also { <!DEBUG_INFO_EXPRESSION_TYPE("{A7 & T!!}")!>it<!>.test() }
+            x.apply {
+                equals(this)
+                test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test(this)
+            }
+            x.also {
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            }
         }
     }
 }
@@ -108,8 +134,17 @@ fun <T> T.case_8() {
             <!DEBUG_INFO_EXPRESSION_TYPE("A8"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test()
 
             <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
-            apply { equals(this); <!DEBUG_INFO_EXPRESSION_TYPE("{T!! & A8}")!>this<!>.equals(this) }
-            also { <!DEBUG_INFO_EXPRESSION_TYPE("{T!! & A8}")!>it<!>.test() }
+            <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+            apply {
+                equals(this)
+                test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A8 & T!!}")!>this<!>.equals(this)
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A8 & T!!}")!>this<!>.test(<!TOO_MANY_ARGUMENTS!>this<!>)
+            }
+            also {
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A8 & T!!}")!>it<!>.test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{A8 & T!!}")!>it<!>.equals(it)
+            }
         }
     }
 }
@@ -122,8 +157,17 @@ fun <T : Number> T.case_9() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.toByte()
 
         equals(this)
-        apply { equals(this); <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.equals(this) }
-        also { <!DEBUG_INFO_EXPRESSION_TYPE("T")!>it<!>.toByte() }
+        toByte()
+        apply {
+            equals(this)
+            toByte()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.toByte()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>it<!>.toByte()
+        }
     }
 }
 
@@ -133,6 +177,19 @@ fun <T : Number?> T.case_10() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.toByte()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>toByte<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            toByte()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.toByte()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.toByte()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -145,6 +202,19 @@ fun <T : Number> T?.case_11() {
             <!DEBUG_INFO_EXPRESSION_TYPE("A11 & T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!>
             <!DEBUG_INFO_EXPRESSION_TYPE("A11"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
             <!DEBUG_INFO_EXPRESSION_TYPE("A11"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test()
+
+            <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+            <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+            apply {
+                equals(this)
+                test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A11}")!>this<!>.equals(this)
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A11}")!>this<!>.test()
+            }
+            also {
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A11}")!>it<!>.test()
+                <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A11}")!>it<!>.equals(it)
+            }
         }
     }
 }
@@ -158,6 +228,19 @@ fun <T> T.case_12() where T : Number?, T: A12? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.toByte()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -173,6 +256,23 @@ fun <T> T.case_13() where T : List<*>?, T: Comparable<T?> {
         <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>last()
         <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.compareTo(null)
+
+        equals(this)
+        <!UNSAFE_CALL!>last<!>()
+        compareTo(null)
+        apply {
+            equals(this)
+            last()
+            compareTo(null)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>last()
+            this.compareTo(null)
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>it<!><!UNSAFE_CALL!>.<!>last()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T")!>it<!>.equals(it)
+            it.compareTo(null)
+        }
     }
 }
 
@@ -187,6 +287,19 @@ fun <T: List<*>?> T.case_14() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>last()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!UNSAFE_CALL!>last<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            <!UNSAFE_CALL!>last<!>()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>last()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>last()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -203,6 +316,19 @@ fun <T: A15<*, *, *, *, *, *, *>?> T.case_15() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!UNSAFE_CALL!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            <!UNSAFE_CALL!>test<!>()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -219,6 +345,19 @@ fun <T: A16<out T>?> T.case_16() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!UNSAFE_CALL!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            <!UNSAFE_CALL!>test<!>()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -235,6 +374,19 @@ fun <T: A17<in T>?> T.case_17() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!UNSAFE_CALL!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            <!UNSAFE_CALL!>test<!>()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -251,6 +403,19 @@ fun <T: A19<out T>?> T.case_19() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!UNSAFE_CALL!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            <!UNSAFE_CALL!>test<!>()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -269,6 +434,23 @@ fun <T> T.case_20() where T: A20_1<in T>?, T: A20_2<out T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!UNSAFE_CALL!>test1<!>()
+        <!UNSAFE_CALL!>test2<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            <!UNSAFE_CALL!>test1<!>()
+            <!UNSAFE_CALL!>test2<!>()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test2()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test2()
+        }
     }
 }
 
@@ -289,17 +471,51 @@ fun <T> T.case_21() where T: A21_1<in T>?, T: A21_2<out T>?, T: A21_3<T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test2()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test3()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!UNSAFE_CALL!>test1<!>()
+        <!UNSAFE_CALL!>test2<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test3<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            <!UNSAFE_CALL!>test1<!>()
+            <!UNSAFE_CALL!>test2<!>()
+            test3()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!><!UNSAFE_CALL!>.<!>test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.test3()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!><!UNSAFE_CALL!>.<!>test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.test3()
+        }
     }
 }
 
 // TESTCASE NUMBER: 23
 interface A23<T> { fun test() }
 
-fun <T1: A23<A23<out T1>>?> T1.case_23() {
+fun <T: A23<A23<out T>>?> T.case_23() {
     if (this != null) {
         <!DEBUG_INFO_EXPRESSION_TYPE("T1!! & T1"), DEBUG_INFO_EXPRESSION_TYPE("T1")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T1!!"), DEBUG_INFO_EXPRESSION_TYPE("T1"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T1!!"), DEBUG_INFO_EXPRESSION_TYPE("T1"), DEBUG_INFO_SMARTCAST!>this<!>.test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T1!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T1!!")!>this<!>.test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T1!!")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T1!!")!>it<!>.test()
+        }
     }
 }
 
@@ -311,6 +527,19 @@ fun <T : A24<in T>> A24<T>?.case_24() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A24<T> & A24<T>?"), DEBUG_INFO_EXPRESSION_TYPE("A24<T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A24<T>"), DEBUG_INFO_EXPRESSION_TYPE("A24<T>?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A24<T>"), DEBUG_INFO_EXPRESSION_TYPE("A24<T>?"), DEBUG_INFO_SMARTCAST!>this<!>.test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A24<T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A24<T>")!>this<!>.test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A24<T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A24<T>")!>it<!>.test()
+        }
     }
 }
 
@@ -322,6 +551,19 @@ fun <T : A25<out T>> A25<T>?.case_25() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A25<T> & A25<T>?"), DEBUG_INFO_EXPRESSION_TYPE("A25<T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A25<T>"), DEBUG_INFO_EXPRESSION_TYPE("A25<T>?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A25<T>"), DEBUG_INFO_EXPRESSION_TYPE("A25<T>?"), DEBUG_INFO_SMARTCAST!>this<!>.test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A25<T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A25<T>")!>this<!>.test()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A25<T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A25<T>")!>it<!>.test()
+        }
     }
 }
 
@@ -333,6 +575,19 @@ fun <T : A26<T>> A26<in T>?.case_26() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A26<in T> & A26<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A26<in T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A26<in T> & A26<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A26<in T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A26<in T> & A26<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A26<in T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A26<in T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A26<in T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A26<in T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A26<in T>")!>it<!>.test()
+        }
     }
 }
 
@@ -344,6 +599,19 @@ fun <T : A27<T>> A27<out T>?.case_27() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A27<out T> & A27<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A27<out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A27<out T> & A27<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A27<out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A27<out T> & A27<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A27<out T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A27<out T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A27<out T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A27<out T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A27<out T>")!>it<!>.test()
+        }
     }
 }
 
@@ -355,6 +623,19 @@ fun <T : A28<in T>> A28<out T>?.case_28() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A28<out T> & A28<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A28<out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A28<out T> & A28<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A28<out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A28<out T> & A28<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A28<out T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A28<out T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A28<out T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A28<out T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A28<out T>")!>it<!>.test()
+        }
     }
 }
 
@@ -366,6 +647,19 @@ fun <T : A29<out T>> A29<in T>?.case_29() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A29<in T> & A29<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A29<in T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A29<in T> & A29<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A29<in T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A29<in T> & A29<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A29<in T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A29<in T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A29<in T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A29<in T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A29<in T>")!>it<!>.test()
+        }
     }
 }
 
@@ -377,6 +671,19 @@ fun <T : A30<in T>> A30<in T>?.case_30() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A30<in T> & A30<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A30<in T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A30<in T> & A30<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A30<in T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A30<in T> & A30<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A30<in T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A30<in T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A30<in T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A30<in T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A30<in T>")!>it<!>.test()
+        }
     }
 }
 
@@ -388,6 +695,19 @@ fun <T : A31<out T>> A31<out T>?.case_31() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A31<out T> & A31<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A31<out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A31<out T> & A31<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A31<out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A31<out T> & A31<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A31<out T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A31<out T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A31<out T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A31<out T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A31<out T>")!>it<!>.test()
+        }
     }
 }
 
@@ -397,6 +717,19 @@ fun <T> Map<T, *>?.case_32() {
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, *> & kotlin.collections.Map<T, *>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, *>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, *> & kotlin.collections.Map<T, *>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, *>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, *> & kotlin.collections.Map<T, *>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, *>?")!>this<!>.isEmpty()
+
+        equals(this)
+        isEmpty()
+        apply {
+            equals(this)
+            isEmpty()
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, kotlin.Any?>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, kotlin.Any?>")!>this<!>.isEmpty()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, kotlin.Any?>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, kotlin.Any?>")!>it<!>.isEmpty()
+        }
     }
 }
 
@@ -408,6 +741,19 @@ fun <T> A33<T, *, T, *, T, *, T>?.case_33() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A33<T, *, T, *, T, *, T> & A33<T, *, T, *, T, *, T>?"), DEBUG_INFO_EXPRESSION_TYPE("A33<T, *, T, *, T, *, T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A33<T, *, T, *, T, *, T> & A33<T, *, T, *, T, *, T>?"), DEBUG_INFO_EXPRESSION_TYPE("A33<T, *, T, *, T, *, T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A33<T, *, T, *, T, *, T> & A33<T, *, T, *, T, *, T>?"), DEBUG_INFO_EXPRESSION_TYPE("A33<T, *, T, *, T, *, T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A33<T, out kotlin.Any?, T, out kotlin.Any?, T, out kotlin.Any?, T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A33<T, out kotlin.Any?, T, out kotlin.Any?, T, out kotlin.Any?, T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A33<T, out kotlin.Any?, T, out kotlin.Any?, T, out kotlin.Any?, T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A33<T, out kotlin.Any?, T, out kotlin.Any?, T, out kotlin.Any?, T>")!>it<!>.test()
+        }
     }
 }
 
@@ -419,6 +765,19 @@ fun <T> A34<out T>?.case_34() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A34<out T> & A34<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A34<out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A34<out T> & A34<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A34<out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A34<out T> & A34<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A34<out T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A34<out T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A34<out T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A34<out T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A34<out T>")!>it<!>.test()
+        }
     }
 }
 
@@ -430,6 +789,19 @@ fun <T> A35<in T>?.case_35() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A35<in T> & A35<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A35<in T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A35<in T> & A35<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A35<in T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A35<in T> & A35<in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A35<in T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A35<in T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A35<in T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A35<in T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A35<in T>")!>it<!>.test()
+        }
     }
 }
 
@@ -441,6 +813,19 @@ fun <T> A37<out T>?.case_37() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A37<out T> & A37<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A37<out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A37<out T> & A37<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A37<out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A37<out T> & A37<out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A37<out T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A37<out T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A37<out T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A37<out T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A37<out T>")!>it<!>.test()
+        }
     }
 }
 
@@ -450,6 +835,19 @@ fun <T> Map<in T, *>?.case_37() {
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, *> & kotlin.collections.Map<in T, *>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, *>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, *> & kotlin.collections.Map<in T, *>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, *>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, *> & kotlin.collections.Map<in T, *>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, *>?")!>this<!>.isEmpty()
+
+        equals(this)
+        isEmpty()
+        apply {
+            equals(this)
+            isEmpty()
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, kotlin.Any?>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, kotlin.Any?>")!>this<!>.isEmpty()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, kotlin.Any?>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, kotlin.Any?>")!>it<!>.isEmpty()
+        }
     }
 }
 
@@ -459,6 +857,19 @@ fun <T> Map<*, <!REDUNDANT_PROJECTION!>out<!> T>?.case_38() {
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<*, out T> & kotlin.collections.Map<*, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<*, out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<*, out T> & kotlin.collections.Map<*, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<*, out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<*, out T> & kotlin.collections.Map<*, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<*, out T>?")!>this<!>.isEmpty()
+
+        equals(this)
+        isEmpty()
+        apply {
+            equals(this)
+            isEmpty()
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out kotlin.Any?, T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out kotlin.Any?, T>")!>this<!>.isEmpty()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out kotlin.Any?, T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out kotlin.Any?, T>")!>it<!>.isEmpty()
+        }
     }
 }
 
@@ -470,6 +881,15 @@ fun <T> A39<in T, out T>?.case_39() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T> & A39<in T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T> & A39<in T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T> & A39<in T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T>?")!>this<!>.<!UNRESOLVED_REFERENCE_WRONG_RECEIVER!>isEmpty<!>()
+
+        equals(this)
+        apply {
+            equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T>")!>this<!>.equals(this)
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A39<in T, out T>")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -481,6 +901,15 @@ fun <T> A40<in T, in T>?.case_40() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T> & A40<in T, in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T> & A40<in T, in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T> & A40<in T, in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T>?")!>this<!>.<!UNRESOLVED_REFERENCE_WRONG_RECEIVER!>isEmpty<!>()
+
+        equals(this)
+        apply {
+            equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T>")!>this<!>.equals(this)
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A40<in T, in T>")!>it<!>.equals(it)
+        }
     }
 }
 
@@ -490,6 +919,19 @@ fun <T> Map<out T, <!REDUNDANT_PROJECTION!>out<!> T>?.case_41() {
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, out T> & kotlin.collections.Map<out T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, out T> & kotlin.collections.Map<out T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, out T> & kotlin.collections.Map<out T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, out T>?")!>this<!>.isEmpty()
+
+        equals(this)
+        isEmpty()
+        apply {
+            equals(this)
+            isEmpty()
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, T>")!>this<!>.isEmpty()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<out T, T>")!>it<!>.isEmpty()
+        }
     }
 }
 
@@ -499,6 +941,19 @@ fun <T> Map<T, <!REDUNDANT_PROJECTION!>out<!> T>?.case_42() {
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, out T> & kotlin.collections.Map<T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, out T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, out T> & kotlin.collections.Map<T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, out T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, out T> & kotlin.collections.Map<T, out T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, out T>?")!>this<!>.isEmpty()
+
+        equals(this)
+        isEmpty()
+        apply {
+            equals(this)
+            isEmpty()
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, T>")!>this<!>.isEmpty()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<T, T>")!>it<!>.isEmpty()
+        }
     }
 }
 
@@ -508,6 +963,19 @@ fun <T> Map<in T, T>?.case_43() {
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T> & kotlin.collections.Map<in T, T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T> & kotlin.collections.Map<in T, T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T> & kotlin.collections.Map<in T, T>?"), DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T>?")!>this<!>.isEmpty()
+
+        equals(this)
+        isEmpty()
+        apply {
+            equals(this)
+            isEmpty()
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T>")!>this<!>.isEmpty()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.collections.Map<in T, T>")!>it<!>.isEmpty()
+        }
     }
 }
 
@@ -519,6 +987,19 @@ fun <T> A44<in T, *, out T, *, T, *, in T>?.case_44() {
         <!DEBUG_INFO_EXPRESSION_TYPE("A44<in T, *, out T, *, T, *, in T> & A44<in T, *, out T, *, T, *, in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A44<in T, *, out T, *, T, *, in T>?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("A44<in T, *, out T, *, T, *, in T> & A44<in T, *, out T, *, T, *, in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A44<in T, *, out T, *, T, *, in T>?")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("A44<in T, *, out T, *, T, *, in T> & A44<in T, *, out T, *, T, *, in T>?"), DEBUG_INFO_EXPRESSION_TYPE("A44<in T, *, out T, *, T, *, in T>?")!>this<!>.test()
+
+        equals(this)
+        test()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("A44<in T, out kotlin.Any?, out T, out kotlin.Any?, T, out kotlin.Any?, in T>")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A44<in T, out kotlin.Any?, out T, out kotlin.Any?, T, out kotlin.Any?, in T>")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("A44<in T, out kotlin.Any?, out T, out kotlin.Any?, T, out kotlin.Any?, in T>")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("A44<in T, out kotlin.Any?, out T, out kotlin.Any?, T, out kotlin.Any?, in T>")!>it<!>.test()
+        }
     }
 }
 
@@ -529,6 +1010,23 @@ fun <T> T.case_45() where T : Number?, T: Comparable<T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_SMARTCAST!>this<!>.toByte()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_SMARTCAST!>this<!>.compareTo(this)
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>toByte<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>compareTo<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            compareTo(this)
+            toByte()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.compareTo(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.toByte()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.compareTo(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.toByte()
+        }
     }
 }
 
@@ -540,6 +1038,27 @@ fun <T> T.case_46() where T : CharSequence?, T: Comparable<T>?, T: Iterable<*>? 
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.compareTo(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.get(0)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.iterator()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>compareTo<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>get<!>(0)
+        <!UNRESOLVED_REFERENCE!>iterator<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>apply<!> {
+            equals(this)
+            compareTo(this)
+            get(0)
+            <!UNRESOLVED_REFERENCE!>interator<!>()
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.compareTo(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.get(0)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>this<!>.<!UNRESOLVED_REFERENCE!>iterator<!>()
+        }
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>also<!> {
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.compareTo(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.get(0)
+            <!DEBUG_INFO_EXPRESSION_TYPE("T!!")!>it<!>.<!UNRESOLVED_REFERENCE!>iterator<!>()
+        }
     }
 }
 
@@ -558,6 +1077,27 @@ fun <T> T?.case_47() where T : A47_1<T>, T: Comparable<*>?, T: A47_2<out T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!>test2()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!><!UNREACHABLE_CODE!>compareTo(<!>return<!UNREACHABLE_CODE!>)<!>
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>compareTo<!>(return)
+        apply {
+            equals(this)
+            test1()
+            test2()
+            compareTo(return)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.compareTo(return)
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.compareTo(return)
+        }
     }
 }
 
@@ -575,6 +1115,23 @@ fun <T> T?.case_48() where T : A48_1<out T>, T: A48_2<in T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!>test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -592,6 +1149,23 @@ fun <T> T?.case_49() where T : A49_1<in T>, T: A49_2<in T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!>test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -609,6 +1183,23 @@ fun <T> T?.case_50() where T : A50_1<out T>, T: A50_2<out T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!>test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -626,6 +1217,23 @@ fun <T> T?.case_51() where T : A51_1<T>, T: A51_2<out T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!>test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -639,6 +1247,23 @@ fun <T> T?.case_52() where T : A52_1<in T>, T: A52_2<T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -656,6 +1281,23 @@ fun <T> T?.case_53() where T : A53_1<in T>, T: A53_2<*>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!>test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -673,6 +1315,23 @@ fun <T> T?.case_54() where T : A54_1<*>, T: A54_2<out T?>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T?"), DEBUG_INFO_EXPRESSION_TYPE("T?")!>this<!><!UNSAFE_CALL!>.<!>test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -686,6 +1345,23 @@ fun <T> T?.case_55() where T : A55_1<*>, T: A55_2<T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T?"), DEBUG_INFO_SMARTCAST!>this<!>.test2()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+        }
     }
 }
 
@@ -698,6 +1374,23 @@ fun <T> T.case_56() where T : Number?, T: A56? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.toByte()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>toByte<!>()
+        apply {
+            equals(this)
+            test()
+            toByte()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.toByte()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.toByte()
+        }
     }
 }
 
@@ -708,6 +1401,23 @@ fun <T> T.case_57() where T : List<*>?, T: Comparable<T?> {
         <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>last()
         <!DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.compareTo(null)
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>last<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>compareTo<!>(null)
+        apply {
+            equals(this)
+            last()
+            compareTo(null)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.last()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.compareTo(null)
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.last()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.compareTo(null)
+        }
     }
 }
 
@@ -715,13 +1425,26 @@ fun <T> T.case_57() where T : List<*>?, T: Comparable<T?> {
  * TESTCASE NUMBER: 58
  * NOTE: lazy smartcasts
  */
-interface A58<T> { fun test1() }
+interface A58<T> { fun test() }
 
 fun <T : A58<A58<A58<A58<A58<A58<A58<A58<A58<A58<T>>>>>>>>>>?> T.case_59() {
     if (this != null) {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
-        <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test1()
+        <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test()
+        }
     }
 }
 
@@ -742,6 +1465,27 @@ fun <T> T.case_59() where T: A59_1<in T, *, out T?, Nothing?, T, T?, Any>?, T: A
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test1()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test2()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test3()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test3<!>()
+        apply {
+            equals(this)
+            test1()
+            test2()
+            test3()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test3()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test3()
+        }
     }
 }
 
@@ -758,6 +1502,19 @@ fun <T: A60<out T>?> T.case_60() {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.equals(this)
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!><!UNSAFE_CALL!>.<!>test()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test<!>()
+        apply {
+            equals(this)
+            test()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(it)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test()
+        }
     }
 }
 
@@ -779,6 +1536,27 @@ fun <T> T.case_61() where T : A61<T>?, T: D61<T>?, T: B61<T>?, T: C61<T>? {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test2()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test3()
         <!DEBUG_INFO_EXPRESSION_TYPE("T!!"), DEBUG_INFO_EXPRESSION_TYPE("T"), DEBUG_INFO_SMARTCAST!>this<!>.test4()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test1<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test2<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test3<!>()
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>test4<!>()
+        apply {
+            test1()
+            test2()
+            test3()
+            test4()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test3()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.test4()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test1()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test2()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test3()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.test4()
+        }
     }
 }
 
@@ -787,6 +1565,15 @@ fun Nothing?.case_62() {
     if (<!SENSELESS_COMPARISON!>this != null<!>) {
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.Nothing?")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.Nothing?")!>this<!>.equals(this)
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>equals<!>(this)
+        apply {
+            equals(this)
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.equals(this)
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.equals(this)
+        }
     }
 }
 
@@ -795,6 +1582,15 @@ fun Nothing.case_63() {
     if (<!SENSELESS_COMPARISON!>this <!UNREACHABLE_CODE!>!= null<!><!>) <!UNREACHABLE_CODE!>{
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.Nothing")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("kotlin.Nothing")!>this<!>.hashCode()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>hashCode<!>()
+        apply {
+            hashCode()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.hashCode()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.hashCode()
+        }
     }<!>
 }
 
@@ -806,5 +1602,14 @@ fun <T : Nothing?> T.case_64() {
     if (this <!EQUALS_MISSING, UNRESOLVED_REFERENCE!>!=<!> null) {
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>
         <!DEBUG_INFO_EXPRESSION_TYPE("T!! & T"), DEBUG_INFO_EXPRESSION_TYPE("T")!>this<!>.hashCode()
+
+        <!DEBUG_INFO_IMPLICIT_RECEIVER_SMARTCAST!>hashCode<!>()
+        apply {
+            hashCode()
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>this<!>.hashCode()
+        }
+        also {
+            <!DEBUG_INFO_EXPRESSION_TYPE("{T?!! & A5}")!>it<!>.hashCode()
+        }
     }
 }
